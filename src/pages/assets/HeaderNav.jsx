@@ -275,9 +275,13 @@
 // export default HeaderNav;
 
 
+
+
+
+
 import React, { useEffect, useState } from "react";
 import {BsFillHouseAddFill} from "react-icons/bs";
-import {FaAngleDown, FaAngleUp, FaGalacticSenate, FaRegClosedCaptioning, FaRegComment, FaUserCircle} from "react-icons/fa";
+import {FaAngleDown, FaAngleUp, FaBars, FaGalacticSenate, FaRegClosedCaptioning, FaRegComment, FaTimes, FaUserCircle} from "react-icons/fa";
 import {AiOutlineBell, AiOutlineClose, AiOutlineEye, AiOutlineHeart} from "react-icons/ai";
 import {FiAlignJustify} from "react-icons/fi";
 import menuData from "./data/menu";
@@ -470,7 +474,9 @@ const HeaderNav=()=>{
         setActiveAyuda(true);
     }
 
-    
+    const [isMobileMenuOpen,setIsMobileMenuOpen] = useState(false);
+
+
 
     return(
         <div className="fixed z-50 w-full">
@@ -490,10 +496,10 @@ const HeaderNav=()=>{
                                             className='h-16' 
                                         />
                                         <div className="flex flex-col items-center">
-                                            <h2 className={`font-roboto-thin font-medium text-xl transition-colors duration-300 text-gray-900`}>
+                                            <h2 className={`font-roboto-thin font-bold text-xl transition-colors duration-300 text-gray-900`}>
                                                 ROGGMAN
                                             </h2>
-                                            <span className={`font-bell text-sm -mt-1 transition-colors font-bold duration-300 text-violet-900`}>
+                                            <span className={`font-bell text-sm -mt-1 transition-colors font-bold duration-300 text-customColor2`}>
                                                 CONSULTING
                                             </span>
                                         </div>
@@ -507,7 +513,7 @@ const HeaderNav=()=>{
                                             className='h-16' 
                                         />
                                         <div className="flex flex-col items-center">
-                                            <h2 className={`font-roboto-thin font-medium text-xl transition-colors duration-300 text-white`}>
+                                            <h2 className={`font-roboto-thin font-bold text-xl transition-colors duration-300 text-white`}>
                                                 ROGGMAN
                                             </h2>
                                             <span className={`font-bell text-sm -mt-1 transition-colors font-bold duration-300 text-white`}>
@@ -546,42 +552,16 @@ const HeaderNav=()=>{
                         </div>
                         
                     </li>
-                    {/* <li className="  w-auto ">
-                        <ul className="w-full flex items-center justify-center flex-nowrap space-x-4">
-                            <li className=" text-white font-bold text-lg h-full ">
-                                <button 
-                                    className=" hidden h-12 px-5 rounded-lg text-white bg-gray-600 font-semibold w-full text-base md:flex items-center space-x-2">
-                                    <span>Publica tus inmuebles</span>
-                                    <BsFillHouseAddFill className="text-2xl"/>
-                                </button>
-                            </li>
-                            <li className=" flex justify-center items-center h-20 " onMouseEnter={handleOverMenuUser} onMouseLeave={handleOutMenuUser}>
-                                <button 
-                                    className={` ${loggedUser?.data?.correo ? '' : `${scrolled ? 'bg-gray-200 border-gray-600 hover:bg-gray-300': 'bg-gray-600 hover:bg-gray-700'} border-min1 rounded-lg` }   h-12  px-3  text-gray-700 font-bold flex items-center  justify-center `}
-                                    onClick={handleClickMenuUser}
-                                >
-                                    {
-                                        loggedUser?.data?.correo ? (<>
-                                            <div className={`h-10 w-10 flex items-center justify-center rounded-full  text-xl ${scrolled ? 'text-gray-200 bg-gray-600' : 'text-gray-600 bg-gray-200'} hidden lg:flex`}>
-                                                {loggedUser?.data?.correo[0].toUpperCase()}
-                                            </div>
-                                            <FaAngleDown className={`${showUser ? 'hidden':''} ${scrolled ? 'text-gray-600 ' : 'text-gray-200 '}`} />
-                                            <FaAngleUp className={`${showUser ? '':'hidden'} ${scrolled ? 'text-gray-600 ' : 'text-gray-200 '}`} />
-                                        </>):(<>
-                                            <FaUserCircle className={`text-3xl ${scrolled ? 'text-gray-600' : 'text-gray-200'} hidden lg:flex`}/>
-                                            {
-                                                (activeCloseMenuMobile) ? (<>
-                                                    <CloseOutlined className="text-3xl "/>
-                                                </>):(<>
-                                                    <FiAlignJustify className={`text-3xl ${scrolled ? 'text-gray-600' : 'text-gray-200'}`}/> 
-                                                </>)
-                                            }
-                                        </>)
-                                    }
-                                </button>
-                            </li>
-                        </ul>
-                    </li> */}
+                    <li className="lg:hidden flex items-center">
+                         <button
+                          onClick={() => setActiveMenuMobile(!activeMenuMobile)  
+                            // && setIsNavHovered(true)
+                        } 
+                          className={`${scrolled ? 'text-gray-700' : 'text-white'}`}
+                          >
+                             {activeMenuMobile ? <FaTimes size={24} /> : <FaBars size={24} />}
+                         </button>
+                     </li>
                 </ul>
             </div>
             {/* menu */}
@@ -617,93 +597,11 @@ const HeaderNav=()=>{
                     </div>
                 ))}
             </div>
-
-
-            {/* submenu user */}
-            {/* <div className={`w-full items-center justify-end relative px-5 hidden lg:flex`} >
-                <div className={`w-w_23_ bg-gray-100 h-auto ${activeMenuUser === false ? "hidden" : ""} rounded-lg py-4 px-6 `} onMouseEnter={handleOverMenuUser} onMouseLeave={handleOutMenuUser} >
-                    { loggedUser?.data?.correo ? <>
-                        {loggedUser?.data?.nombre && <p>{loggedUser?.data?.nombre}</p>}
-                        <p className={`${loggedUser?.data?.nombre ? "text-gray-500 font-semibold" : "text-gray-800 font-semibold"} `}>{loggedUser?.data?.correo}</p>
-                    </>:<>
-                        <p className="text-gray-500 font-medium text-sm">Ingresa y accede a los avisos que contactaste, tus favoritos y las búsquedas guardadas</p>
-                        <button className="w-full text-center py-2 bg-gray-500 hover:bg-gray-600 rounded-lg my-1 text-white font-bold text-base" onClick={handleClickIniciarSesion}>Iniciar Sesión</button>
-                    </>}
-                    <hr  className="w-full border-gray-500 my-1" />
-                    <ul className="w-full space-y-1 px-2 my-2 text-gray-700 text-sm">
-                        <li className="flex items-center flex-nowrap space-x-2 p-1 hover:bg-gray-200 hover:cursor-pointer ">
-                            <FaRegComment />
-                            <p>Avisos Contactados</p>
-                        </li>
-                        <li className="flex items-center flex-nowrap space-x-2 p-1 hover:bg-gray-200 hover:cursor-pointer ">
-                            <AiOutlineHeart />
-                            <p>Favoritos</p>
-                        </li>
-                        <li className="flex items-center flex-nowrap space-x-2 p-1 hover:bg-gray-200 hover:cursor-pointer ">
-                            <AiOutlineBell />
-                            <p>Búsquedas y alertas</p>
-                        </li>
-                        <li className="flex items-center flex-nowrap space-x-2 p-1 hover:bg-gray-200 hover:cursor-pointer ">
-                            <AiOutlineEye />
-                            <p>Historial</p>
-                        </li>
-                        <hr  className="w-full border-gray-500 my-1" />
-                        <li className="p-1 hover:bg-gray-200 hover:cursor-pointer ">
-                            <p>Mi cuenta</p>
-                        </li>
-                        <li className="p-1 hover:bg-gray-200 hover:cursor-pointer ">
-                            <p>Ajustes de notificaciones</p>
-                        </li>
-                        { loggedUser?.data?.correo && 
-                        <>
-                            <hr  className="w-full border-gray-500 my-1" />
-                            <li className=" p-1">
-                                <p>Ayuda</p>
-                            </li>
-                            <li className="hover:cursor-pointer hover:bg-gray-300 p-1" onClick={handleCerrarSesion}>
-                                <p className="text-red-700" >Cerrar Sesión</p>
-                            </li>
-                        </>
-                    }
-                    </ul>
-                </div>
-            </div> */}
+            
+{/* windowHeight - 80 */}
+{/* style={{ height: auto }} */}
             {/* menu mobile */}
-            <div className={`${activeMenuMobile?'':'hidden'} bg-gray-100 w-full  lg:hidden overflow-auto p-4`} style={{ height: windowHeight - 80 }}>
-                <p className="text-gray-500 font-medium my-2">Ingresa y accede a los avisos que contactaste, tus favoritos y las búsquedas guardadas</p>
-                {/* <button className="w-full text-center py-2 bg-gray-500 hover:bg-gray-600 rounded-lg my-1 text-white font-bold text-base" onClick={handleClickIniciarSesion}>Iniciar Sesión</button> */}
-                {/* <hr className="border-gray-300 w-full mt-2"/>
-                <ul className="w-full space-y-0 px-2 py-4 text-gray-700">
-                    <li className="flex items-center flex-nowrap space-x-2 hover:bg-gray-200 hover:cursor-pointer py-2 px-1">
-                        <FaRegComment />
-                        <p>Avisos Contactados</p>
-                    </li>
-                    <li className="flex items-center flex-nowrap space-x-2 hover:bg-gray-200 hover:cursor-pointer py-2 px-1">
-                        <AiOutlineHeart />
-                        <p>Favoritos</p>
-                    </li>
-                    <li className="flex items-center flex-nowrap space-x-2 hover:bg-gray-200 hover:cursor-pointer py-2 px-1">
-                        <AiOutlineBell />
-                        <p>Búsquedas y alertas</p>
-                    </li>
-                    <li className="flex items-center flex-nowrap space-x-2 hover:bg-gray-200 hover:cursor-pointer py-2 px-1">
-                        <AiOutlineEye />
-                        <p>Historial</p>
-                    </li>
-                    <li className="hover:bg-gray-200 hover:cursor-pointer py-2 px-1">
-                        <p>Mi cuenta</p>
-                    </li>
-                    <li className="hover:bg-gray-200 hover:cursor-pointer py-2 px-1">
-                        <p>Ajustes de notificaciones</p>
-                    </li>
-                </ul>
-                <hr className="border-gray-300 w-full "/> 
-                <button className="w-full text-center py-2 bg-gray-500 hover:bg-gray-600 rounded-lg my-1 text-white font-bold text-base flex items-center justify-center space-x-2">
-                    <span>Publica tu inmueble</span>
-                    <BsFillHouseAddFill className="text-2xl"/>
-                </button>
-
-                <hr className="border-gray-300 w-full pb-2  md:hidden"/> */}
+            <div className={`${activeMenuMobile?'':'hidden'} bg-gray-100 w-full  lg:hidden overflow-auto p-4 h-auto`} > 
                 {menuData.map(({ id, submenus, label }, index)=>(
                     
                     <div
@@ -736,15 +634,28 @@ const HeaderNav=()=>{
 
                     </div>
                 ))}
-                <button className={` ${activeAyuda === false ? '' : 'hover:bg-gray-200'} flex items-center justify-between font-medium w-full py-2 px-2 border-b-min1 hover:bg-gray-200 hover:cursor-pointer`}
-                    onClick={handleClickAyuda}
-                >
-                    <p>Ayuda</p>
-                </button>
             </div>
+
+
         </div>
-        
     )
 }
-
 export default HeaderNav;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
